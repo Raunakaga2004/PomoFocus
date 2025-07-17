@@ -85,7 +85,7 @@ export function Timer(props){
         
     },[timertype])
     
-    return <div className="text-white flex flex-col bg-neutral-900/20 rounded-xl justify-between p-8 items-center xl:h-[35vh] 2xl:w-[30vw] xl:w-[40vw] lg:w-[50vw] md:w-[65vw] sm:w-[75vw] h[70vh] select-none">
+    return <div className="text-white flex flex-col bg-neutral-900/20 rounded-xl justify-between p-8 items-center xl:h-[35vh] 3xl:w-[30vw] 2xl:w-[35vw] xl:w-[40vw] lg:w-[50vw] md:w-[65vw] sm:w-[75vw] min-h-[40vh] select-none">
         <div className="flex flex-row sm:text-lg md:text-xl gap-6 justify-center mb-2">
             <button onClick={()=>{setTimerType("Pomodoro"); setTimer(false); setMin(props.pomomin); setSec(props.pomosec)}} className={`${timertype == "Pomodoro" ? "bg-neutral-900/40 py-1 px-2 rounded-md" : "border-0"}`}>Pomodoro</button>
             <button onClick={()=>{setTimerType("Short Break"); setTimer(false); setMin(props.shortmin); setSec(props.shortsec)}} className={`${timertype == "Short Break" ? "bg-neutral-900/40 py-1 px-2 rounded-md" : "border-0"}`}>Short Break</button>
