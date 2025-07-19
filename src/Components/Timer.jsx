@@ -9,21 +9,54 @@ let shortBreakCount = 0;
 
 export function Timer(props){
     const [timertype, setTimerType] = useState("Pomodoro");
+    
+    const [pomomin, setPomomin] = useState(props.pomomin);
+    const [pomosec, setPomosec] = useState(props.pomosec);
+    const [shortmin, setShortmin] = useState(props.shortmin);
+    const [shortsec, setShortsec] = useState(props.shortsec);
+    const [longmin, setLongmin] = useState(props.longmin);
+    const [longsec, setLongsec] = useState(props.longsec);
+    const [focusSession, setFocusSession] = useState(props.focusSession); 
 
     const curMin = ()=>{
-        if(timertype == "Pomodoro") return props.pomomin;
-        else if (timertype == "Short Break") return props.shortmin;
-        else return props.longmin;
+        if(timertype == "Pomodoro") return pomomin;
+        else if (timertype == "Short Break") return shortmin;
+        else return longmin;
     }
 
     const curSec = ()=>{
-        if(timertype == "Pomodoro") return props.pomosec;
-        else if (timertype == "Short Break") return props.shortsec;
-        else return props.longsec;
+        if(timertype == "Pomodoro") return pomosec;
+        else if (timertype == "Short Break") return shortsec;
+        else return longsec;
     }
+
+    useEffect(()=>{
+
+        console.log(props.pomomin);
+        setPomomin(props.pomomin);
+        setPomosec(props.pomosec);
+        setShortmin(props.shortmin);
+        setShortsec(props.shortsec);
+        setLongmin(props.longmin);
+        setLongsec(props.longsec);
+        setFocusSession(props.focusSession);
+    }, [props])
 
     const [Min, setMin] = useState(curMin);
     const [Sec, setSec] = useState(curSec);
+
+    useEffect(() => {
+        if(timertype === "Pomodoro"){
+            setMin(pomomin);
+            setSec(pomosec);
+        } else if(timertype === "Short Break"){
+            setMin(shortmin);
+            setSec(shortsec);
+        } else if(timertype === "Long Break"){
+            setMin(longmin);
+            setSec(longsec);
+        }
+    }, [pomomin, pomosec, shortmin, shortsec, longmin, longsec, timertype]);
 
     const [isTimerOn, setTimer] = useState(false);
 
@@ -51,7 +84,7 @@ export function Timer(props){
             else{
                 alarm.play();
                 if(timertype == "Pomodoro"){
-                    if(shortBreakCount == props.focusSession-1){
+                    if(shortBreakCount == focusSession-1){
                         shortBreakCount = 0;
                         setTimerType("Long Break");
                     }
@@ -87,9 +120,9 @@ export function Timer(props){
     
     return <div className="text-white flex flex-col bg-neutral-900/20 rounded-xl justify-between select-none p-6 lg:w-[35vw] lg:h-[42vh] md:w-[55vw] md:h-[35vw] h-[35vh] w-[95vw]">
         <div className="flex flex-row md:text-[18px] gap-6 justify-center">
-            <button onClick={()=>{setTimerType("Pomodoro"); setTimer(false); setMin(props.pomomin); setSec(props.pomosec)}} className={`${timertype == "Pomodoro" ? "bg-neutral-900/40 pl-1.5 pr-1.5 p-0.5 rounded-sm" : "border-0"}`}>Pomodoro</button>
-            <button onClick={()=>{setTimerType("Short Break"); setTimer(false); setMin(props.shortmin); setSec(props.shortsec)}} className={`${timertype == "Short Break" ? "bg-neutral-900/40 pl-1.5 pr-1.5 p-0.5 rounded-sm" : "border-0"}`}>Short Break</button>
-            <button onClick={()=>{setTimerType("Long Break"); setTimer(false); setMin(props.longmin); setSec(props.longsec)}} className={`${timertype == "Long Break" ? "bg-neutral-900/40 pl-1.5 pr-1.5 p-0.5 rounded-sm" : "border-0"}`}>Long Break</button>
+            <button onClick={()=>{setTimerType("Pomodoro"); setTimer(false); setMin(pomomin); setSec(pomosec)}} className={`${timertype == "Pomodoro" ? "bg-neutral-900/40 pl-1.5 pr-1.5 p-0.5 rounded-sm" : "border-0"}`}>Pomodoro</button>
+            <button onClick={()=>{setTimerType("Short Break"); setTimer(false); setMin(shortmin); setSec(shortsec)}} className={`${timertype == "Short Break" ? "bg-neutral-900/40 pl-1.5 pr-1.5 p-0.5 rounded-sm" : "border-0"}`}>Short Break</button>
+            <button onClick={()=>{setTimerType("Long Break"); setTimer(false); setMin(longmin); setSec(longsec)}} className={`${timertype == "Long Break" ? "bg-neutral-900/40 pl-1.5 pr-1.5 p-0.5 rounded-sm" : "border-0"}`}>Long Break</button>
         </div>
         
         <div className="md:text-9xl text-8xl font-bold text-center py-2">
@@ -116,7 +149,7 @@ export function Timer(props){
 
     function changeTimer(){
         if(timertype == "Pomodoro"){
-            if(shortBreakCount == props.focusSession-1){
+            if(shortBreakCount == focusSession-1){
                 setTimerType("Long Break");
                 shortBreakCount = 0;
             }
